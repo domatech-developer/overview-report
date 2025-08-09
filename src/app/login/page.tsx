@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { Eye, EyeOff } from "lucide-react";
 
 export default function LoginPage() {
@@ -11,6 +11,7 @@ export default function LoginPage() {
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
+  const search = useSearchParams();
 
   async function onSubmit(e: React.FormEvent) {
     e.preventDefault();
@@ -29,7 +30,8 @@ export default function LoginPage() {
         else setError("Falha ao entrar. Tente novamente.");
         return;
       }
-      router.replace("/");
+      const from = search?.get("from");
+      router.replace(from || "/");
     } catch {
       setError("Falha de conexão. Verifique sua rede e tente novamente.");
     } finally {
