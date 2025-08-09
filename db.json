@@ -1,0 +1,1209 @@
+{
+  "clients": [
+    {
+      "id": "c_teadit",
+      "name": "Teadit",
+      "health": "Atenção",
+      "priority": "Alta",
+      "notes": "Dependência de TI/credenciais; validar VPN/alternativa",
+      "lastTouch": "2025-08-09T00:00:00.000Z",
+      "color": "#2dd4bf"
+    },
+    {
+      "id": "c_cariani",
+      "name": "Renato Cariani",
+      "health": "Saudável",
+      "priority": "Média",
+      "notes": "Área logada com YouTube Members; UX/UI pendente",
+      "lastTouch": "2025-08-09T00:00:00.000Z",
+      "color": "#60a5fa"
+    },
+    {
+      "id": "c_ligga",
+      "name": "Ligga",
+      "health": "Atenção",
+      "priority": "Alta",
+      "notes": "LP Play no ar; pendentes confirmações de e-mail/automação",
+      "lastTouch": "2025-08-09T00:00:00.000Z",
+      "color": "#fbbf24"
+    },
+    {
+      "id": "c_condor",
+      "name": "Condor",
+      "health": "Atenção",
+      "priority": "Média",
+      "notes": "Priorizar LP Clube vs. Aniversário; materiais de download",
+      "lastTouch": "2025-08-09T00:00:00.000Z",
+      "color": "#a78bfa"
+    },
+    {
+      "id": "c_skydiet",
+      "name": "Skydiet",
+      "health": "Saudável",
+      "priority": "Alta",
+      "notes": "QPC (nutri) ok; fluxo paciente até 13/08; Plano por Alimento em andamento",
+      "lastTouch": "2025-08-09T00:00:00.000Z",
+      "color": "#34d399"
+    },
+    {
+      "id": "c_cassol",
+      "name": "Cassol",
+      "health": "Atenção",
+      "priority": "Média",
+      "notes": "Ajustes + 1h orçamento; imagens/logos pendentes",
+      "color": "#f472b6"
+    },
+    {
+      "id": "c_lion",
+      "name": "Lion",
+      "health": "Atenção",
+      "priority": "Média",
+      "notes": "SoulPro ajustes; derivados (Vitao/Herbarium/Gfarma)",
+      "color": "#60a5fa"
+    },
+    {
+      "id": "c_aformula",
+      "name": "aFórmula",
+      "health": "Saudável",
+      "priority": "Média",
+      "notes": "Correções concluídas",
+      "color": "#22d3ee"
+    },
+    {
+      "id": "c_iprh",
+      "name": "IPRH",
+      "health": "Atenção",
+      "priority": "Média",
+      "notes": "Proposta—acompanhar retorno",
+      "color": "#f59e0b"
+    },
+    {
+      "id": "c_medvida",
+      "name": "MedVida",
+      "health": "Atenção",
+      "priority": "Média",
+      "notes": "Proposta—acompanhar retorno",
+      "color": "#f59e0b"
+    },
+    {
+      "id": "c_rudolph",
+      "name": "Rudolph",
+      "health": "Saudável",
+      "priority": "Baixa",
+      "notes": "Ajuste formulário concluído",
+      "color": "#67e8f9"
+    },
+    {
+      "id": "c_croques",
+      "name": "Croques",
+      "health": "Atenção",
+      "priority": "Média",
+      "notes": "LP Agita—validação com Evelyn",
+      "color": "#fb7185"
+    }
+  ],
+  "subprojects": [
+    {
+      "id": "s_teadit_api_articles",
+      "name": "API Articles",
+      "clientId": "c_teadit",
+      "status": "Ativo"
+    },
+    {
+      "id": "s_teadit_eagle_gaskets",
+      "name": "LP Eagle Gaskets",
+      "clientId": "c_teadit",
+      "status": "Ativo"
+    },
+    {
+      "id": "s_cariani_members",
+      "name": "Área Logada + YouTube Members",
+      "clientId": "c_cariani",
+      "status": "Ativo"
+    },
+    {
+      "id": "s_ligga_play",
+      "name": "Ligga Play",
+      "clientId": "c_ligga",
+      "status": "Ativo"
+    },
+    {
+      "id": "s_ligga_devolucao",
+      "name": "LP Devolução de Equipamentos",
+      "clientId": "c_ligga",
+      "status": "Ativo"
+    },
+    {
+      "id": "s_ligga_ouvidoria",
+      "name": "Página de Ouvidoria",
+      "clientId": "c_ligga",
+      "status": "Ativo"
+    },
+    {
+      "id": "s_condor_lp_aniversario",
+      "name": "LP Aniversário",
+      "clientId": "c_condor",
+      "status": "Ativo"
+    },
+    {
+      "id": "s_condor_lp_clube",
+      "name": "LP Clube Condor",
+      "clientId": "c_condor",
+      "status": "Ativo"
+    },
+    {
+      "id": "s_condor_app_clube_proposta",
+      "name": "App Clube Condor (Proposta/Nova versão)",
+      "clientId": "c_condor",
+      "status": "Ativo"
+    },
+    {
+      "id": "s_condor_lp_blackfriday",
+      "name": "LP Black Friday (planejado)",
+      "clientId": "c_condor",
+      "status": "Pausado"
+    },
+    {
+      "id": "s_condor_lp_natal",
+      "name": "LP Natal (planejado)",
+      "clientId": "c_condor",
+      "status": "Pausado"
+    },
+    {
+      "id": "s_skydiet_qpc",
+      "name": "QPC – Questionário Pré-Consulta",
+      "clientId": "c_skydiet",
+      "status": "Ativo"
+    },
+    {
+      "id": "s_skydiet_plano_alimento",
+      "name": "Plano Alimentar (por alimento)",
+      "clientId": "c_skydiet",
+      "status": "Ativo"
+    },
+    {
+      "id": "s_cassol_site",
+      "name": "Site – Ajustes/SEO",
+      "clientId": "c_cassol",
+      "status": "Ativo"
+    },
+    {
+      "id": "s_lion_soulpro",
+      "name": "SoulPro – Ajustes",
+      "clientId": "c_lion",
+      "status": "Ativo"
+    },
+    {
+      "id": "s_lion_vitao",
+      "name": "Vitao – Páginas/Briefing",
+      "clientId": "c_lion",
+      "status": "Ativo"
+    },
+    {
+      "id": "s_lion_herbarium",
+      "name": "Herbarium – Páginas/Briefing",
+      "clientId": "c_lion",
+      "status": "Ativo"
+    },
+    {
+      "id": "s_lion_gfarma",
+      "name": "Gfarma – Finalização de Layout",
+      "clientId": "c_lion",
+      "status": "Ativo"
+    },
+    {
+      "id": "s_aformula_lps",
+      "name": "LPs – Correções",
+      "clientId": "c_aformula",
+      "status": "Concluído"
+    },
+    {
+      "id": "s_iprh_proposta",
+      "name": "Proposta Comercial",
+      "clientId": "c_iprh",
+      "status": "Ativo"
+    },
+    {
+      "id": "s_medvida_proposta",
+      "name": "Proposta Comercial",
+      "clientId": "c_medvida",
+      "status": "Ativo"
+    },
+    {
+      "id": "s_rudolph_form",
+      "name": "Formulário de Denúncias – Ajuste",
+      "clientId": "c_rudolph",
+      "status": "Concluído"
+    },
+    {
+      "id": "s_croques_lp_agita",
+      "name": "LP Agita Croques",
+      "clientId": "c_croques",
+      "status": "Ativo"
+    }
+  ],
+  "tasks": [
+    {
+      "id": "t_teadit_2307_test_api",
+      "title": "Testar API (credenciais da TI)",
+      "status": "Em andamento",
+      "priority": "Alta",
+      "assigneeId": "u_joao",
+      "dueDate": "2025-07-25T12:00:00.000Z",
+      "workType": "Site",
+      "origin": "Cliente",
+      "description": "Cobrar senha com Rodrigo Germano (TI) para concluir testes.",
+      "startDate": "2025-07-23T12:00:00.000Z",
+      "subprojectId": "s_teadit_api_articles"
+    },
+    {
+      "id": "t_teadit_2407_cobranca_ti",
+      "title": "Responder cobrança da TI e atualizar status de testes",
+      "status": "Aguardando cliente",
+      "priority": "Média",
+      "assigneeId": "u_nicole",
+      "dueDate": "2025-07-25T12:00:00.000Z",
+      "workType": "Outros",
+      "origin": "Cliente",
+      "description": "TI cobrou testes; pendente credencial. Formalizado por e-mail; risco de atraso.",
+      "startDate": "2025-07-24T13:00:00.000Z",
+      "subprojectId": "s_teadit_api_articles"
+    },
+    {
+      "id": "t_teadit_2907_vpn",
+      "title": "Definir alternativa à VPN recusada",
+      "status": "Em andamento",
+      "priority": "Alta",
+      "assigneeId": "u_joao",
+      "workType": "Infra",
+      "origin": "Cliente",
+      "description": "VPN recusada pelo cliente; marcar reunião resolutiva.",
+      "startDate": "2025-07-29T12:00:00.000Z",
+      "subprojectId": "s_teadit_api_articles"
+    },
+    {
+      "id": "t_teadit_2907_articles",
+      "title": "Aplicar correções nos últimos Articles",
+      "status": "Aguardando cliente",
+      "priority": "Média",
+      "assigneeId": "u_felipe",
+      "workType": "Site",
+      "origin": "Cliente",
+      "description": "Correções aplicadas; aguardando aprovação do cliente.",
+      "startDate": "2025-07-29T17:00:00.000Z",
+      "subprojectId": "s_teadit_api_articles"
+    },
+    {
+      "id": "t_teadit_1707_eagle_figma",
+      "title": "Enviar LP Eagle Gaskets para validação",
+      "status": "Aguardando cliente",
+      "priority": "Média",
+      "assigneeId": "u_nicole",
+      "workType": "Site",
+      "origin": "Cliente",
+      "description": "Layout ajustado enviado; link do Figma reenviado pelo Atendimento.",
+      "startDate": "2025-07-17T13:00:00.000Z",
+      "subprojectId": "s_teadit_eagle_gaskets"
+    },
+    {
+      "id": "t_cariani_1808_kickoff",
+      "title": "Kickoff desenvolvimento (layout aprovado)",
+      "status": "Pendente",
+      "priority": "Média",
+      "assigneeId": "u_felipe",
+      "dueDate": "2025-08-18T12:00:00.000Z",
+      "workType": "Site",
+      "origin": "Interno",
+      "description": "Início 18/08; 30 dias úteis. Usar YouTube Members; falta UX/UI da área logada.",
+      "subprojectId": "s_cariani_members"
+    },
+    {
+      "id": "t_cariani_0608_layout_extra",
+      "title": "Finalizar páginas do layout e validar uso de links do YouTube Members",
+      "status": "Em andamento",
+      "priority": "Média",
+      "assigneeId": "u_kevin",
+      "workType": "Site",
+      "origin": "Interno",
+      "description": "+3 páginas de blog e +4 na área logada; validar estratégia de links.",
+      "startDate": "2025-08-06T17:00:00.000Z",
+      "subprojectId": "s_cariani_members"
+    },
+    {
+      "id": "t_ligga_2407_devolucao_ouvidoria",
+      "title": "LP Devolução + ajustes Ouvidoria (homologação)",
+      "status": "Aguardando cliente",
+      "priority": "Média",
+      "assigneeId": "u_joao",
+      "workType": "Site",
+      "origin": "Cliente",
+      "description": "Devolução entregue; aguardando validação (Alana). Ouvidoria ajustada.",
+      "startDate": "2025-07-24T14:00:00.000Z",
+      "subprojectId": "s_ligga_devolucao"
+    },
+    {
+      "id": "t_ligga_0108_go_live",
+      "title": "Ligga Play — conferir confirmações de e-mail e automações",
+      "status": "Em andamento",
+      "priority": "Alta",
+      "assigneeId": "u_felipe",
+      "workType": "Site",
+      "origin": "Cliente",
+      "description": "LP no ar; pendente confirmar e-mails do formulário e automação planilha.",
+      "startDate": "2025-08-01T12:00:00.000Z",
+      "subprojectId": "s_ligga_play"
+    },
+    {
+      "id": "t_ligga_0408_ajustes",
+      "title": "Aplicar novos ajustes de layout do Play (conteúdo pendente)",
+      "status": "Aguardando cliente",
+      "priority": "Média",
+      "assigneeId": "u_kevin",
+      "workType": "Site",
+      "origin": "Cliente",
+      "description": "Aguardando conteúdo; lançamento previsto 11/08 se materiais chegarem.",
+      "startDate": "2025-08-04T13:00:00.000Z",
+      "subprojectId": "s_ligga_play"
+    },
+    {
+      "id": "t_condor_2207_briefing_aniv",
+      "title": "Briefing LP Aniversário (01/08) e KV aprovado",
+      "status": "Em andamento",
+      "priority": "Média",
+      "assigneeId": "u_nicole",
+      "workType": "Outros",
+      "origin": "Interno",
+      "description": "Reunião com Douglas e Kevin; KV e conteúdo aprovados para layout.",
+      "startDate": "2025-07-22T12:00:00.000Z",
+      "subprojectId": "s_condor_lp_aniversario"
+    },
+    {
+      "id": "t_condor_0508_layout_aniv",
+      "title": "Layout LP Aniversário (faltam materiais de download)",
+      "status": "Em andamento",
+      "priority": "Média",
+      "assigneeId": "u_vitor",
+      "workType": "Site",
+      "origin": "Cliente",
+      "description": "Entrega visual na semana seguinte.",
+      "startDate": "2025-08-05T12:00:00.000Z",
+      "subprojectId": "s_condor_lp_aniversario"
+    },
+    {
+      "id": "t_condor_2207_priorizar_clube",
+      "title": "Priorizar LP Clube Condor",
+      "status": "Pendente",
+      "priority": "Alta",
+      "assigneeId": "u_nicole",
+      "workType": "Outros",
+      "origin": "Interno",
+      "description": "Buscar informações e ajustar pauta do time.",
+      "startDate": "2025-07-22T13:00:00.000Z",
+      "subprojectId": "s_condor_lp_clube"
+    },
+    {
+      "id": "t_condor_2907_app_proposta",
+      "title": "Proposta App Clube Condor (nova versão)",
+      "status": "Aguardando cliente",
+      "priority": "Média",
+      "assigneeId": "u_nicole",
+      "workType": "Outros",
+      "origin": "Cliente",
+      "description": "Proposta enviada; dúvida respondida; aguardando aval.",
+      "startDate": "2025-07-29T14:00:00.000Z",
+      "subprojectId": "s_condor_app_clube_proposta"
+    },
+    {
+      "id": "t_skydiet_2407_explicacao_plano",
+      "title": "Apresentação módulo Plano Alimentar (parte 1) — UX/UI",
+      "status": "Em andamento",
+      "priority": "Média",
+      "assigneeId": "u_vitor",
+      "workType": "Site",
+      "origin": "Interno",
+      "description": "Parte 2 agendada para 28/07 às 9h.",
+      "startDate": "2025-07-24T13:00:00.000Z",
+      "subprojectId": "s_skydiet_plano_alimento"
+    },
+    {
+      "id": "t_skydiet_2507_qpc_paciente",
+      "title": "QPC — fluxo paciente",
+      "status": "Em andamento",
+      "priority": "Alta",
+      "assigneeId": "u_felipe",
+      "dueDate": "2025-08-13T21:00:00.000Z",
+      "workType": "App",
+      "origin": "Interno",
+      "description": "Fluxo nutri com feedback positivo; próxima entrega 13/08.",
+      "startDate": "2025-07-25T12:00:00.000Z",
+      "subprojectId": "s_skydiet_qpc"
+    },
+    {
+      "id": "t_skydiet_3007_csv",
+      "title": "Organizar dados em CSV (Plano Alimentar)",
+      "status": "Pendente",
+      "priority": "Média",
+      "assigneeId": "u_felipe",
+      "workType": "App",
+      "origin": "Interno",
+      "description": "Daniel organiza CSV no back por 1 semana.",
+      "startDate": "2025-07-30T12:30:00.000Z",
+      "subprojectId": "s_skydiet_plano_alimento"
+    },
+    {
+      "id": "t_skydiet_0608_favoritar",
+      "title": "Feature: favoritar plano inteiro",
+      "status": "Pendente",
+      "priority": "Média",
+      "assigneeId": "u_felipe",
+      "workType": "App",
+      "origin": "Cliente",
+      "description": "Solicitado após demo 06/08; após LP Condor.",
+      "startDate": "2025-08-06T18:00:00.000Z",
+      "subprojectId": "s_skydiet_plano_alimento"
+    },
+    {
+      "id": "t_cassol_2807_seo",
+      "title": "Verificar demanda de SEO com a Mari",
+      "status": "Aguardando cliente",
+      "priority": "Baixa",
+      "assigneeId": "u_mari",
+      "workType": "SEO",
+      "origin": "Cliente",
+      "description": "Adicional +1h aguardando aprovação.",
+      "startDate": "2025-07-28T13:00:00.000Z",
+      "subprojectId": "s_cassol_site"
+    },
+    {
+      "id": "t_cassol_2907_imagens",
+      "title": "Solicitar imagens/logos",
+      "status": "Aguardando cliente",
+      "priority": "Baixa",
+      "assigneeId": "u_nicole",
+      "workType": "Outros",
+      "origin": "Cliente",
+      "startDate": "2025-07-29T14:00:00.000Z",
+      "subprojectId": "s_cassol_site"
+    },
+    {
+      "id": "t_lion_3107_soulpro",
+      "title": "SoulPro — ajustes de botões + novos ajustes",
+      "status": "Em andamento",
+      "priority": "Baixa",
+      "assigneeId": "u_kevin",
+      "workType": "Site",
+      "origin": "Cliente",
+      "description": "Replanejar após Plano Alimentar e LP Condor.",
+      "startDate": "2025-07-31T17:00:00.000Z",
+      "subprojectId": "s_lion_soulpro"
+    },
+    {
+      "id": "t_vitao_3107_briefing",
+      "title": "Vitao — briefing",
+      "status": "Em andamento",
+      "priority": "Baixa",
+      "assigneeId": "u_nicole",
+      "workType": "Outros",
+      "origin": "Cliente",
+      "description": "Briefing 01/08; acompanhar pauta.",
+      "startDate": "2025-07-31T13:00:00.000Z",
+      "subprojectId": "s_lion_vitao"
+    },
+    {
+      "id": "t_herbarium_3107_briefing",
+      "title": "Herbarium — aguardar briefing Recorrência",
+      "status": "Aguardando cliente",
+      "priority": "Baixa",
+      "assigneeId": "u_nicole",
+      "workType": "Outros",
+      "origin": "Cliente",
+      "description": "Aguardando detalhes.",
+      "startDate": "2025-07-31T13:30:00.000Z",
+      "subprojectId": "s_lion_herbarium"
+    },
+    {
+      "id": "t_gfarma_3107_finalizar",
+      "title": "Gfarma — finalizar layout com materiais recebidos",
+      "status": "Em andamento",
+      "priority": "Média",
+      "assigneeId": "u_kevin",
+      "workType": "Site",
+      "origin": "Cliente",
+      "description": "Banners recebidos; layout aprovado.",
+      "startDate": "2025-07-31T18:00:00.000Z",
+      "subprojectId": "s_lion_gfarma"
+    },
+    {
+      "id": "t_lion_0508_alinhar_luan",
+      "title": "Lion — reunião com Luan (front)",
+      "status": "Pendente",
+      "priority": "Baixa",
+      "assigneeId": "u_kevin",
+      "workType": "Outros",
+      "origin": "Interno",
+      "description": "Alinhar alterações e próximos passos.",
+      "startDate": "2025-08-05T13:00:00.000Z",
+      "subprojectId": "s_lion_soulpro"
+    },
+    {
+      "id": "t_aformula_2907_corr",
+      "title": "Correções de duas LPs (Evelyn) — concluído",
+      "status": "Concluída",
+      "priority": "Baixa",
+      "assigneeId": "u_felipe",
+      "workType": "Site",
+      "origin": "Cliente",
+      "description": "Correções aplicadas; status concluído.",
+      "startDate": "2025-07-29T12:00:00.000Z",
+      "subprojectId": "s_aformula_lps"
+    },
+    {
+      "id": "t_iprh_2507_update",
+      "title": "Solicitar update do Douglas (IPRH)",
+      "status": "Aguardando cliente",
+      "priority": "Baixa",
+      "assigneeId": "u_nicole",
+      "workType": "Outros",
+      "origin": "Interno",
+      "description": "Sem retorno; acompanhar diariamente.",
+      "startDate": "2025-07-25T12:00:00.000Z",
+      "subprojectId": "s_iprh_proposta"
+    },
+    {
+      "id": "t_medvida_2507_update",
+      "title": "Solicitar update do Douglas (MedVida)",
+      "status": "Aguardando cliente",
+      "priority": "Baixa",
+      "assigneeId": "u_nicole",
+      "workType": "Outros",
+      "origin": "Interno",
+      "description": "Sem retorno; acompanhar diariamente.",
+      "startDate": "2025-07-25T12:15:00.000Z",
+      "subprojectId": "s_medvida_proposta"
+    },
+    {
+      "id": "t_rudolph_2407_form",
+      "title": "Adicionar e-mail no formulário de denúncias",
+      "status": "Concluída",
+      "priority": "Baixa",
+      "assigneeId": "u_felipe",
+      "workType": "Site",
+      "origin": "Cliente",
+      "description": "Demanda pontual concluída e informada por e-mail.",
+      "startDate": "2025-07-24T12:30:00.000Z",
+      "subprojectId": "s_rudolph_form"
+    },
+    {
+      "id": "t_croques_2407_agita",
+      "title": "LP Agita Croques — validar opções com cliente",
+      "status": "Aguardando cliente",
+      "priority": "Média",
+      "assigneeId": "u_nicole",
+      "workType": "Site",
+      "origin": "Cliente",
+      "description": "2 opções de passo a passo em validação com Evelyn.",
+      "startDate": "2025-07-24T13:00:00.000Z",
+      "subprojectId": "s_croques_lp_agita"
+    }
+  ],
+  "collaborators": [
+    {
+      "id": "u_kevin",
+      "name": "Kevin",
+      "area": "UX/UI"
+    },
+    {
+      "id": "u_vitor",
+      "name": "Vitor",
+      "area": "UX/UI"
+    },
+    {
+      "id": "u_mari",
+      "name": "Mari",
+      "area": "SEO"
+    },
+    {
+      "id": "u_joao",
+      "name": "João",
+      "area": "DEV"
+    },
+    {
+      "id": "u_eduardo",
+      "name": "Eduardo",
+      "area": "DEV"
+    },
+    {
+      "id": "u_felipe",
+      "name": "Felipe",
+      "area": "GESTÃO"
+    },
+    {
+      "id": "u_nicole",
+      "name": "Nicole",
+      "area": "PROJETOS"
+    }
+  ],
+  "events": [
+    {
+      "id": "e_from_user_1",
+      "createdAt": "2025-08-09T16:01:12.709Z",
+      "type": "Atualização",
+      "summary": "Follow-up de article",
+      "details": "Follow-up de article",
+      "clientId": "c_teadit",
+      "subprojectId": "s_teadit_api_articles",
+      "followUpAt": "2025-08-09T03:00:00.000Z",
+      "pendingFrom": "Nenhum",
+      "owners": [
+        "u_felipe"
+      ]
+    },
+    {
+      "id": "e_from_user_2",
+      "createdAt": "2025-08-09T16:00:47.319Z",
+      "type": "Atualização",
+      "summary": "Follow-up teste",
+      "details": "Follow-up teste",
+      "clientId": "c_teadit",
+      "followUpAt": "2025-08-09T03:00:00.000Z",
+      "pendingFrom": "Nenhum",
+      "owners": [
+        "u_felipe"
+      ]
+    },
+    {
+      "id": "e_teadit_20250723_api_liberada",
+      "createdAt": "2025-08-09T18:10:00.000Z",
+      "when": "2025-07-23T12:00:00-03:00",
+      "type": "Atualização",
+      "summary": "API liberada pela TI; iniciar testes",
+      "details": "Produção liberada. Encaminhado ao João para testes.",
+      "clientId": "c_teadit",
+      "subprojectId": "s_teadit_api_articles",
+      "owners": [
+        "u_joao"
+      ],
+      "pendingFrom": "Equipe",
+      "nextStep": "Executar bateria de testes e registrar evidências",
+      "followUpAt": "2025-07-25T09:00:00-03:00"
+    },
+    {
+      "id": "e_teadit_20250724_ti_cobrou",
+      "createdAt": "2025-08-09T18:12:00.000Z",
+      "when": "2025-07-24T10:00:00-03:00",
+      "type": "Cobrança",
+      "summary": "TI cobrou status dos testes da API",
+      "details": "Prazo interno até 25/07 12h para finalizar testes.",
+      "clientId": "c_teadit",
+      "subprojectId": "s_teadit_api_articles",
+      "owners": [
+        "u_nicole"
+      ],
+      "pendingFrom": "Equipe",
+      "followUpAt": "2025-07-25T12:00:00-03:00"
+    },
+    {
+      "id": "e_teadit_20250725_sem_senha",
+      "createdAt": "2025-08-09T18:14:00.000Z",
+      "when": "2025-07-25T09:00:00-03:00",
+      "type": "Bloqueio",
+      "summary": "Sem senha para concluir testes",
+      "details": "João solicitou credencial ao Rodrigo Germano (TI).",
+      "clientId": "c_teadit",
+      "subprojectId": "s_teadit_api_articles",
+      "owners": [
+        "u_joao",
+        "u_nicole"
+      ],
+      "pendingFrom": "Cliente",
+      "nextStep": "Reforçar pedido se não houver resposta até 29/07",
+      "followUpAt": "2025-07-29T10:00:00-03:00"
+    },
+    {
+      "id": "e_teadit_20250723_articles_ajustes",
+      "createdAt": "2025-08-09T18:16:00.000Z",
+      "when": "2025-07-23T16:00:00-03:00",
+      "type": "Entrega",
+      "summary": "Ajustes nos Articles aplicados",
+      "details": "Cliente avisada: enviar Articles com identação correta para WordPress.",
+      "clientId": "c_teadit",
+      "subprojectId": "s_teadit_api_articles",
+      "owners": [
+        "u_felipe"
+      ],
+      "pendingFrom": "Cliente",
+      "followUpAt": "2025-07-30T09:00:00-03:00"
+    },
+    {
+      "id": "e_teadit_20250729_vpn_recusada",
+      "createdAt": "2025-08-09T18:18:00.000Z",
+      "when": "2025-07-29T14:00:00-03:00",
+      "type": "Decisão",
+      "summary": "VPN recusada pelo cliente — avaliar alternativa",
+      "details": "Agendar reunião resolutiva; considerar outra abordagem para acesso.",
+      "clientId": "c_teadit",
+      "subprojectId": "s_teadit_api_articles",
+      "owners": [
+        "u_joao",
+        "u_nicole"
+      ],
+      "pendingFrom": "Ambos",
+      "nextStep": "Marcar call entre TI e devs para desbloquear",
+      "followUpAt": "2025-07-31T11:00:00-03:00"
+    },
+    {
+      "id": "e_teadit_20250805_risco_atraso",
+      "createdAt": "2025-08-09T18:20:00.000Z",
+      "when": "2025-08-05T10:00:00-03:00",
+      "type": "Risco",
+      "summary": "Risco de atraso — TI sem retorno e layout pendente",
+      "details": "Germano em férias; formalizado por e-mail. Forçar aprovação e concluir API.",
+      "clientId": "c_teadit",
+      "subprojectId": "s_teadit_api_articles",
+      "owners": [
+        "u_nicole"
+      ],
+      "pendingFrom": "Cliente",
+      "followUpAt": "2025-08-08T09:00:00-03:00"
+    },
+    {
+      "id": "e_teadit_eagle_20250723_link_resent",
+      "createdAt": "2025-08-09T18:22:00.000Z",
+      "when": "2025-07-23T15:00:00-03:00",
+      "type": "Atualização",
+      "summary": "LP Eagle — link do Figma reenviado",
+      "details": "Responsável não havia recebido; Atendimento reenviou.",
+      "clientId": "c_teadit",
+      "subprojectId": "s_teadit_eagle_gaskets",
+      "owners": [
+        "u_nicole"
+      ],
+      "pendingFrom": "Cliente",
+      "followUpAt": "2025-07-30T10:00:00-03:00"
+    },
+    {
+      "id": "e_cariani_20240722_predefs",
+      "createdAt": "2025-08-09T18:25:00.000Z",
+      "when": "2025-07-22T09:00:00-03:00",
+      "type": "Decisão",
+      "summary": "Escopo base — área logada com YouTube Members",
+      "details": "Layout aprovado; início previsto 18/08; falta UX/UI da área logada.",
+      "clientId": "c_cariani",
+      "subprojectId": "s_cariani_members",
+      "owners": [
+        "u_nicole"
+      ],
+      "pendingFrom": "Equipe",
+      "followUpAt": "2025-08-18T09:00:00-03:00",
+      "nextStep": "Kickoff técnico e definição de componentes"
+    },
+    {
+      "id": "e_cariani_20250806_layout_extra",
+      "createdAt": "2025-08-09T18:27:00.000Z",
+      "when": "2025-08-06T17:00:00-03:00",
+      "type": "Atualização",
+      "summary": "Layout: +3 páginas blog e +4 área logada",
+      "details": "Validar estratégia de links com YouTube Members.",
+      "clientId": "c_cariani",
+      "subprojectId": "s_cariani_members",
+      "owners": [
+        "u_kevin",
+        "u_vitor"
+      ],
+      "pendingFrom": "Equipe",
+      "followUpAt": "2025-08-12T10:00:00-03:00"
+    },
+    {
+      "id": "e_ligga_20240724_devolucao_ouvidoria",
+      "createdAt": "2025-08-09T18:30:00.000Z",
+      "when": "2025-07-24T14:00:00-03:00",
+      "type": "Aprovação",
+      "summary": "LP Devolução entregue; Ouvidoria ajustada — aguardando Alana",
+      "details": "Homologação pendente de validação.",
+      "clientId": "c_ligga",
+      "subprojectId": "s_ligga_devolucao",
+      "owners": [
+        "u_joao",
+        "u_nicole"
+      ],
+      "pendingFrom": "Cliente",
+      "followUpAt": "2025-07-29T10:00:00-03:00"
+    },
+    {
+      "id": "e_ligga_20250801_play_no_ar",
+      "createdAt": "2025-08-09T18:32:00.000Z",
+      "when": "2025-08-01T12:00:00-03:00",
+      "type": "Entrega",
+      "summary": "Ligga Play no ar — pendente confirmar e-mails/automação",
+      "details": "Confirmar recepção do formulário e automação com planilha.",
+      "clientId": "c_ligga",
+      "subprojectId": "s_ligga_play",
+      "owners": [
+        "u_felipe"
+      ],
+      "pendingFrom": "Cliente",
+      "followUpAt": "2025-08-05T11:00:00-03:00",
+      "links": "https://liggavc.com.br/para-voce/ligga-play/"
+    },
+    {
+      "id": "e_ligga_20250804_ajustes_layout",
+      "createdAt": "2025-08-09T18:34:00.000Z",
+      "when": "2025-08-04T10:00:00-03:00",
+      "type": "Atualização",
+      "summary": "Novos ajustes de layout — aguardando conteúdo",
+      "details": "Lançamento previsto 11/08 caso enviem materiais restantes.",
+      "clientId": "c_ligga",
+      "subprojectId": "s_ligga_play",
+      "owners": [
+        "u_kevin",
+        "u_nicole"
+      ],
+      "pendingFrom": "Cliente",
+      "followUpAt": "2025-08-08T09:00:00-03:00"
+    },
+    {
+      "id": "e_condor_20240722_briefing_aniv",
+      "createdAt": "2025-08-09T18:36:00.000Z",
+      "when": "2025-07-22T09:00:00-03:00",
+      "type": "Alinhamento interno",
+      "summary": "Briefing LP Aniversário definido; KV aprovado",
+      "details": "Reunião com Douglas e Kevin. Layout a partir de 06/08.",
+      "clientId": "c_condor",
+      "subprojectId": "s_condor_lp_aniversario",
+      "owners": [
+        "u_nicole",
+        "u_vitor"
+      ],
+      "pendingFrom": "Equipe",
+      "followUpAt": "2025-08-06T10:00:00-03:00"
+    },
+    {
+      "id": "e_condor_20250805_layout_aniv",
+      "createdAt": "2025-08-09T18:38:00.000Z",
+      "when": "2025-08-05T12:00:00-03:00",
+      "type": "Atualização",
+      "summary": "Iniciado layout da LP Aniversário",
+      "details": "Conteúdo aprovado; faltam materiais de download.",
+      "clientId": "c_condor",
+      "subprojectId": "s_condor_lp_aniversario",
+      "owners": [
+        "u_vitor"
+      ],
+      "pendingFrom": "Cliente",
+      "followUpAt": "2025-08-08T16:00:00-03:00"
+    },
+    {
+      "id": "e_condor_20240722_priorizar_clube",
+      "createdAt": "2025-08-09T18:40:00.000Z",
+      "when": "2025-07-22T13:00:00-03:00",
+      "type": "Decisão",
+      "summary": "Prioridade: LP Clube Condor",
+      "details": "Buscar infos e ajustar pauta; priorizar frente à Aniversário.",
+      "clientId": "c_condor",
+      "subprojectId": "s_condor_lp_clube",
+      "owners": [
+        "u_nicole"
+      ],
+      "pendingFrom": "Equipe",
+      "followUpAt": "2025-07-29T10:00:00-03:00"
+    },
+    {
+      "id": "e_condor_20240729_app_proposta",
+      "createdAt": "2025-08-09T18:42:00.000Z",
+      "when": "2025-07-29T14:00:00-03:00",
+      "type": "Aprovação",
+      "summary": "App Clube — proposta enviada, dúvida respondida",
+      "details": "Aguardando aval do cliente para iniciar (estimado 11/08).",
+      "clientId": "c_condor",
+      "subprojectId": "s_condor_app_clube_proposta",
+      "owners": [
+        "u_nicole"
+      ],
+      "pendingFrom": "Cliente",
+      "followUpAt": "2025-08-06T11:00:00-03:00"
+    },
+    {
+      "id": "e_skydiet_20250724_explica_plano_p1",
+      "createdAt": "2025-08-09T18:45:00.000Z",
+      "when": "2025-07-24T13:00:00-03:00",
+      "type": "Reunião",
+      "summary": "Apresentação do Plano Alimentar (parte 1) — UX/UI",
+      "details": "Parte 2 agendada para 28/07 às 9h.",
+      "clientId": "c_skydiet",
+      "subprojectId": "s_skydiet_plano_alimento",
+      "owners": [
+        "u_vitor",
+        "u_felipe"
+      ],
+      "pendingFrom": "Equipe",
+      "followUpAt": "2025-07-28T09:00:00-03:00"
+    },
+    {
+      "id": "e_skydiet_20250725_qpc_dev",
+      "createdAt": "2025-08-09T18:46:30.000Z",
+      "when": "2025-07-25T12:00:00-03:00",
+      "type": "Atualização",
+      "summary": "QPC — desenvolvimento em andamento",
+      "details": "Próxima entrega: fluxo paciente.",
+      "clientId": "c_skydiet",
+      "subprojectId": "s_skydiet_qpc",
+      "owners": [
+        "u_felipe"
+      ],
+      "pendingFrom": "Equipe",
+      "followUpAt": "2025-08-01T18:00:00-03:00"
+    },
+    {
+      "id": "e_skydiet_20250725_whatsapp",
+      "createdAt": "2025-08-09T18:48:00.000Z",
+      "when": "2025-07-25T16:00:00-03:00",
+      "type": "Decisão",
+      "summary": "Grupo de WhatsApp criado com cliente",
+      "details": "Facilitar comunicação e dúvidas rápidas.",
+      "clientId": "c_skydiet",
+      "subprojectId": "s_skydiet_qpc",
+      "owners": [
+        "u_nicole"
+      ],
+      "pendingFrom": "Nenhum"
+    },
+    {
+      "id": "e_skydiet_20250801_qpc_fluxo_sem_resp",
+      "createdAt": "2025-08-09T18:50:00.000Z",
+      "when": "2025-08-01T18:00:00-03:00",
+      "type": "Entrega",
+      "summary": "QPC — fluxo sem resposta do paciente entregue",
+      "details": "Tooltips adicionadas; link e login enviados ao Andrigo.",
+      "clientId": "c_skydiet",
+      "subprojectId": "s_skydiet_qpc",
+      "owners": [
+        "u_felipe"
+      ],
+      "pendingFrom": "Cliente",
+      "followUpAt": "2025-08-06T10:00:00-03:00"
+    },
+    {
+      "id": "e_skydiet_20250808_feedback_nutri_ok",
+      "createdAt": "2025-08-09T18:52:00.000Z",
+      "when": "2025-08-08T11:00:00-03:00",
+      "type": "Atualização",
+      "summary": "Stakeholders com feedback positivo (fluxo nutri)",
+      "details": "Próxima entrega: QPC fluxo paciente em 13/08.",
+      "clientId": "c_skydiet",
+      "subprojectId": "s_skydiet_qpc",
+      "owners": [
+        "u_felipe",
+        "u_nicole"
+      ],
+      "pendingFrom": "Equipe",
+      "followUpAt": "2025-08-13T09:00:00-03:00"
+    },
+    {
+      "id": "e_skydiet_20250730_csv_org",
+      "createdAt": "2025-08-09T18:54:00.000Z",
+      "when": "2025-07-30T12:30:00-03:00",
+      "type": "Decisão",
+      "summary": "CSV do Plano Alimentar será organizado no back",
+      "details": "Daniel realizará durante 1 semana no back-end.",
+      "clientId": "c_skydiet",
+      "subprojectId": "s_skydiet_plano_alimento",
+      "owners": [
+        "u_nicole"
+      ],
+      "pendingFrom": "Equipe",
+      "followUpAt": "2025-08-06T12:30:00-03:00"
+    },
+    {
+      "id": "e_skydiet_20250806_feature_favoritar",
+      "createdAt": "2025-08-09T18:56:00.000Z",
+      "when": "2025-08-06T18:00:00-03:00",
+      "type": "Decisão",
+      "summary": "Nova feature solicitada: favoritar plano inteiro",
+      "details": "Incluir após finalizar Condor.",
+      "clientId": "c_skydiet",
+      "subprojectId": "s_skydiet_plano_alimento",
+      "owners": [
+        "u_felipe"
+      ],
+      "pendingFrom": "Equipe"
+    },
+    {
+      "id": "e_cassol_20250728_seo",
+      "createdAt": "2025-08-09T18:58:00.000Z",
+      "when": "2025-07-28T13:00:00-03:00",
+      "type": "Atualização",
+      "summary": "Verificação de demanda de SEO com Mari",
+      "details": "Aguardando +1h de orçamento ser aprovada.",
+      "clientId": "c_cassol",
+      "subprojectId": "s_cassol_site",
+      "owners": [
+        "u_mari",
+        "u_nicole"
+      ],
+      "pendingFrom": "Cliente",
+      "followUpAt": "2025-08-01T10:00:00-03:00"
+    },
+    {
+      "id": "e_cassol_20250729_imagens",
+      "createdAt": "2025-08-09T19:00:00.000Z",
+      "when": "2025-07-29T14:00:00-03:00",
+      "type": "Cobrança",
+      "summary": "Solicitadas imagens/logos para agilizar ajustes",
+      "details": "Aguardando envio do cliente.",
+      "clientId": "c_cassol",
+      "subprojectId": "s_cassol_site",
+      "owners": [
+        "u_nicole"
+      ],
+      "pendingFrom": "Cliente",
+      "followUpAt": "2025-08-01T09:30:00-03:00"
+    },
+    {
+      "id": "e_lion_20250731_soulpro_figma",
+      "createdAt": "2025-08-09T19:02:00.000Z",
+      "when": "2025-07-31T17:00:00-03:00",
+      "type": "Atualização",
+      "summary": "SoulPro — Figma com ajustes de botões enviado",
+      "details": "Cliente solicitou pequenos ajustes; replanejar após Plano Alimentar e LP Condor.",
+      "clientId": "c_lion",
+      "subprojectId": "s_lion_soulpro",
+      "owners": [
+        "u_kevin"
+      ],
+      "pendingFrom": "Cliente",
+      "followUpAt": "2025-08-06T15:00:00-03:00"
+    },
+    {
+      "id": "e_lion_20250805_reuniao_luan",
+      "createdAt": "2025-08-09T19:04:00.000Z",
+      "when": "2025-08-05T13:00:00-03:00",
+      "type": "Reunião",
+      "summary": "Reunião com Luan (front) para alinhar alterações",
+      "details": "Definir próximos passos e janelas de desenvolvimento.",
+      "clientId": "c_lion",
+      "subprojectId": "s_lion_soulpro",
+      "owners": [
+        "u_kevin"
+      ],
+      "pendingFrom": "Equipe"
+    },
+    {
+      "id": "e_vitao_20250731_briefing",
+      "createdAt": "2025-08-09T19:06:00.000Z",
+      "when": "2025-07-31T13:00:00-03:00",
+      "type": "Reunião",
+      "summary": "Vitao — briefing agendado para 01/08",
+      "details": "Acompanhar pauta e materiais.",
+      "clientId": "c_lion",
+      "subprojectId": "s_lion_vitao",
+      "owners": [
+        "u_nicole"
+      ],
+      "pendingFrom": "Cliente",
+      "followUpAt": "2025-08-01T09:00:00-03:00"
+    },
+    {
+      "id": "e_herbarium_20250731_aguardando_briefing",
+      "createdAt": "2025-08-09T19:08:00.000Z",
+      "when": "2025-07-31T13:30:00-03:00",
+      "type": "Contato sem retorno",
+      "summary": "Herbarium — aguardando briefing de Recorrência",
+      "details": "Sem retorno do cliente.",
+      "clientId": "c_lion",
+      "subprojectId": "s_lion_herbarium",
+      "owners": [
+        "u_nicole"
+      ],
+      "pendingFrom": "Cliente",
+      "followUpAt": "2025-08-05T10:00:00-03:00"
+    },
+    {
+      "id": "e_gfarma_20250731_materiais_ok",
+      "createdAt": "2025-08-09T19:10:00.000Z",
+      "when": "2025-07-31T18:00:00-03:00",
+      "type": "Atualização",
+      "summary": "Gfarma — materiais recebidos; layout aprovado",
+      "details": "Finalizar layout com banners e assets enviados.",
+      "clientId": "c_lion",
+      "subprojectId": "s_lion_gfarma",
+      "owners": [
+        "u_kevin"
+      ],
+      "pendingFrom": "Equipe",
+      "followUpAt": "2025-08-06T14:00:00-03:00"
+    },
+    {
+      "id": "e_aformula_20250729_corr_final",
+      "createdAt": "2025-08-09T19:12:00.000Z",
+      "when": "2025-07-29T12:00:00-03:00",
+      "type": "Entrega",
+      "summary": "Correções concluídas nas duas LPs",
+      "details": "Status finalizado conforme solicitação da Evelyn.",
+      "clientId": "c_aformula",
+      "subprojectId": "s_aformula_lps",
+      "owners": [
+        "u_felipe"
+      ],
+      "pendingFrom": "Nenhum"
+    },
+    {
+      "id": "e_iprh_20250725_cobrar_douglas",
+      "createdAt": "2025-08-09T19:14:00.000Z",
+      "when": "2025-07-25T12:00:00-03:00",
+      "type": "Cobrança",
+      "summary": "IPRH — solicitado update ao Douglas",
+      "details": "Sem retorno; acompanhar diariamente.",
+      "clientId": "c_iprh",
+      "subprojectId": "s_iprh_proposta",
+      "owners": [
+        "u_nicole"
+      ],
+      "pendingFrom": "Cliente",
+      "followUpAt": "2025-07-28T10:00:00-03:00"
+    },
+    {
+      "id": "e_medvida_20250725_cobrar_douglas",
+      "createdAt": "2025-08-09T19:16:00.000Z",
+      "when": "2025-07-25T12:15:00-03:00",
+      "type": "Cobrança",
+      "summary": "MedVida — solicitado update ao Douglas",
+      "details": "Sem retorno; acompanhar diariamente.",
+      "clientId": "c_medvida",
+      "subprojectId": "s_medvida_proposta",
+      "owners": [
+        "u_nicole"
+      ],
+      "pendingFrom": "Cliente",
+      "followUpAt": "2025-07-28T10:30:00-03:00"
+    },
+    {
+      "id": "e_rudolph_20240724_form_ok",
+      "createdAt": "2025-08-09T19:18:00.000Z",
+      "when": "2025-07-24T12:30:00-03:00",
+      "type": "Entrega",
+      "summary": "E-mail adicionado ao formulário de denúncias",
+      "details": "Demanda pontual concluída e informada por e-mail.",
+      "clientId": "c_rudolph",
+      "subprojectId": "s_rudolph_form",
+      "owners": [
+        "u_felipe"
+      ],
+      "pendingFrom": "Nenhum"
+    },
+    {
+      "id": "e_croques_20240724_lp_agita",
+      "createdAt": "2025-08-09T19:20:00.000Z",
+      "when": "2025-07-24T13:00:00-03:00",
+      "type": "Aprovação",
+      "summary": "LP Agita — validação com Evelyn (2 opções)",
+      "details": "Aguardando retorno do cliente.",
+      "clientId": "c_croques",
+      "subprojectId": "s_croques_lp_agita",
+      "owners": [
+        "u_nicole"
+      ],
+      "pendingFrom": "Cliente",
+      "followUpAt": "2025-07-30T10:00:00-03:00"
+    }
+  ]
+}
