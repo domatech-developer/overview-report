@@ -23,6 +23,7 @@ import {
   ArrowRight,
 } from "lucide-react";
 import { ThemeToggle } from "@/components/theme/ThemeToggle";
+import { useToast } from "@/components/ui/ToastProvider";
 
 /**
  * Client Projects Dashboard — JSON-first, Mongo-ready
@@ -383,6 +384,7 @@ async function createEventRemote(e: Omit<EventItem, "id" | "createdAt">): Promis
 
 // ------------------------- MAIN APP ------------------------- //
 export default function Page() {
+  const { show } = useToast();
   const [data, setData] = useState<StoreShape>(sampleData);
   const [loading, setLoading] = useState(true);
   const [tab, setTab] = useState<"overview" | "clients" | "collaborators" | "timeline" | "flow" | "capacity">("overview");
@@ -449,6 +451,9 @@ export default function Page() {
     isAlert: boolean;
   } | null>(null);
   const [isEventModalOpen, setIsEventModalOpen] = useState(false);
+  // Global action/loading flags
+  const [busy, setBusy] = useState<{ [k: string]: boolean }>({});
+  const setBusyKey = (k: string, v: boolean) => setBusy((s) => ({ ...s, [k]: v }));
   const [eventDraft, setEventDraft] = useState<{
     clientId: string;
     subprojectId?: string;
@@ -523,6 +528,7 @@ export default function Page() {
       } catch (err: any) {
         setRemoteError("Falha ao carregar API remota; usando dados locais.");
         setData(jsonStore.load());
+  show("Não foi possível carregar a API remota. Usando dados locais.", "error");
       } finally {
         setLoading(false);
       }
@@ -626,74 +632,55 @@ export default function Page() {
   async function saveCreateTask() {
     if (!taskCreateDraft) return;
     if (!taskCreateDraft.title.trim()) return alert("Informe o título da tarefa");
+    setBusyKey("createTask", true);
     const toSave: Task = { ...taskCreateDraft, relationId: taskCreateDraft.subprojectId };
     const sp = data.subprojects.find((s) => s.id === toSave.subprojectId);
     const clientId = sp?.clientId!;
-    if (remoteReady) {
-      const created = await apiCreate<Task>("tasks", toSave);
-      const ev = await createEventRemote({
-        type: "Atualização",
-        summary: `Tarefa criada: ${toSave.title}`,
-        clientId,
-        subprojectId: toSave.subprojectId,
-        taskId: toSave.id,
-      });
-      setData((d) => ({ ...d, tasks: [created, ...d.tasks], events: [ev, ...d.events] }));
-    } else {
-      setData((d) => {
-        const nd = { ...d, tasks: [toSave, ...d.tasks] };
-        return addEvent(nd, {
+    try {
+      if (remoteReady) {
+        const created = await apiCreate<Task>("tasks", toSave);
+        const ev = await createEventRemote({
           type: "Atualização",
           summary: `Tarefa criada: ${toSave.title}`,
           clientId,
           subprojectId: toSave.subprojectId,
           taskId: toSave.id,
         });
-      });
+        setData((d) => ({ ...d, tasks: [created, ...d.tasks], events: [ev, ...d.events] }));
+      } else {
+        setData((d) => {
+          const nd = { ...d, tasks: [toSave, ...d.tasks] };
+          return addEvent(nd, {
+            type: "Atualização",
+            summary: `Tarefa criada: ${toSave.title}`,
+            clientId,
+            subprojectId: toSave.subprojectId,
+            taskId: toSave.id,
+          });
+        });
+      }
+      show("Tarefa criada com sucesso.", "success");
+      setIsTaskCreateOpen(false);
+      setTaskCreateDraft(null);
+    } catch (e) {
+      show("Falha ao criar tarefa.", "error");
+    } finally {
+      setBusyKey("createTask", false);
     }
-    setIsTaskCreateOpen(false);
-    setTaskCreateDraft(null);
   }
 
   async function updateTask(upd: Partial<Task> & { id: string }) {
     const prev = data.tasks.find((t) => t.id === upd.id);
     if (!prev) return;
     const next = { ...prev, ...upd } as Task;
-    if (remoteReady) {
-      await apiUpdate<Task>("tasks", next.id, next);
-      const sp = data.subprojects.find((s) => s.id === prev.subprojectId);
-      const clientId = sp?.clientId!;
-      const eventsToAdd: Array<Omit<EventItem, "id" | "createdAt">> = [];
-      if (upd.status && prev.status !== upd.status) {
-        eventsToAdd.push({
-          type: upd.status === "Concluída" ? "Entrega" : "Atualização",
-          summary: `Status: ${prev.status} → ${upd.status} (${prev.title})`,
-          clientId,
-          subprojectId: prev.subprojectId,
-          taskId: prev.id,
-        });
-      }
-      if (upd.dueDate && prev.dueDate !== upd.dueDate) {
-        eventsToAdd.push({
-          type: "Decisão",
-          summary: `Prazo atualizado para ${new Date(upd.dueDate).toLocaleDateString("pt-BR")} (${prev.title})`,
-          clientId,
-          subprojectId: prev.subprojectId,
-          taskId: prev.id,
-          followUpAt: upd.dueDate,
-        });
-      }
-      const createdEvents: EventItem[] = [];
-      for (const e of eventsToAdd) createdEvents.push(await createEventRemote(e));
-      setData((d) => ({ ...d, tasks: d.tasks.map((t) => (t.id === next.id ? next : t)), events: [...createdEvents, ...d.events] }));
-    } else {
-      setData((d) => {
-        const nextTasks = d.tasks.map((t) => (t.id === next.id ? next : t));
-        let nd: StoreShape = { ...d, tasks: nextTasks };
-        const sp = d.subprojects.find((s) => s.id === prev.subprojectId);
+    try {
+      if (remoteReady) {
+        await apiUpdate<Task>("tasks", next.id, next);
+        const sp = data.subprojects.find((s) => s.id === prev.subprojectId);
         const clientId = sp?.clientId!;
+        const eventsToAdd: Array<Omit<EventItem, "id" | "createdAt">> = [];
         if (upd.status && prev.status !== upd.status) {
-          nd = addEvent(nd, {
+          eventsToAdd.push({
             type: upd.status === "Concluída" ? "Entrega" : "Atualização",
             summary: `Status: ${prev.status} → ${upd.status} (${prev.title})`,
             clientId,
@@ -702,7 +689,7 @@ export default function Page() {
           });
         }
         if (upd.dueDate && prev.dueDate !== upd.dueDate) {
-          nd = addEvent(nd, {
+          eventsToAdd.push({
             type: "Decisão",
             summary: `Prazo atualizado para ${new Date(upd.dueDate).toLocaleDateString("pt-BR")} (${prev.title})`,
             clientId,
@@ -711,14 +698,51 @@ export default function Page() {
             followUpAt: upd.dueDate,
           });
         }
-        return nd;
-      });
+        const createdEvents: EventItem[] = [];
+        for (const e of eventsToAdd) createdEvents.push(await createEventRemote(e));
+        setData((d) => ({ ...d, tasks: d.tasks.map((t) => (t.id === next.id ? next : t)), events: [...createdEvents, ...d.events] }));
+      } else {
+        setData((d) => {
+          const nextTasks = d.tasks.map((t) => (t.id === next.id ? next : t));
+          let nd: StoreShape = { ...d, tasks: nextTasks };
+          const sp = d.subprojects.find((s) => s.id === prev.subprojectId);
+          const clientId = sp?.clientId!;
+          if (upd.status && prev.status !== upd.status) {
+            nd = addEvent(nd, {
+              type: upd.status === "Concluída" ? "Entrega" : "Atualização",
+              summary: `Status: ${prev.status} → ${upd.status} (${prev.title})`,
+              clientId,
+              subprojectId: prev.subprojectId,
+              taskId: prev.id,
+            });
+          }
+          if (upd.dueDate && prev.dueDate !== upd.dueDate) {
+            nd = addEvent(nd, {
+              type: "Decisão",
+              summary: `Prazo atualizado para ${new Date(upd.dueDate).toLocaleDateString("pt-BR")} (${prev.title})`,
+              clientId,
+              subprojectId: prev.subprojectId,
+              taskId: prev.id,
+              followUpAt: upd.dueDate,
+            });
+          }
+          return nd;
+        });
+      }
+      show("Tarefa atualizada.", "success");
+    } catch (e) {
+      show("Falha ao atualizar tarefa.", "error");
     }
   }
 
   async function deleteTask(id: string) {
-    if (remoteReady) await apiDelete("tasks", id);
-    setData((d) => ({ ...d, tasks: d.tasks.filter((t) => t.id !== id) }));
+    try {
+      if (remoteReady) await apiDelete("tasks", id);
+      setData((d) => ({ ...d, tasks: d.tasks.filter((t) => t.id !== id) }));
+      show("Tarefa excluída.", "success");
+    } catch {
+      show("Falha ao excluir tarefa.", "error");
+    }
   }
 
   // =================== IMPORT/EXPORT ===================
@@ -731,7 +755,7 @@ export default function Page() {
       try {
         const nextRaw = JSON.parse(String(reader.result)) as Partial<StoreShape>;
         const next = migrateData(nextRaw);
-        if (remoteReady) {
+  if (remoteReady) {
           // naive replace: clear and re-insert
           const toClear = ["clients", "subprojects", "tasks", "collaborators", "events"] as const;
           for (const key of toClear) {
@@ -749,9 +773,9 @@ export default function Page() {
           setData(next);
           jsonStore.save(next);
         }
-        alert("Dados importados com sucesso.");
+  show("Dados importados com sucesso.", "success");
       } catch {
-        alert("JSON inválido");
+  show("JSON inválido.", "error");
       }
     };
     reader.readAsText(file);
@@ -767,22 +791,37 @@ export default function Page() {
     const area = prompt(`Área do colaborador (opções: ${AREAS.join(", ")})`, "PROJETOS") as Area | null;
     if (!area || !AREAS.includes(area)) return alert("Área inválida");
     const col = { id: uid("u"), name, area } as Collaborator;
-    if (remoteReady) await apiCreate<Collaborator>("collaborators", col);
-    setData((d) => ({ ...d, collaborators: [...(d.collaborators ?? []), col] }));
+    try {
+      if (remoteReady) await apiCreate<Collaborator>("collaborators", col);
+      setData((d) => ({ ...d, collaborators: [...(d.collaborators ?? []), col] }));
+      show("Colaborador adicionado.", "success");
+    } catch {
+      show("Falha ao adicionar colaborador.", "error");
+    }
   }
 
   async function updateCollaborator(upd: Partial<Collaborator> & { id: string }) {
-    if (remoteReady) {
-      const prev = data.collaborators.find((u) => u.id === upd.id);
-      if (prev) await apiUpdate<Collaborator>("collaborators", upd.id, { ...prev, ...upd });
+    try {
+      if (remoteReady) {
+        const prev = data.collaborators.find((u) => u.id === upd.id);
+        if (prev) await apiUpdate<Collaborator>("collaborators", upd.id, { ...prev, ...upd });
+      }
+      setData((d) => ({ ...d, collaborators: (d.collaborators ?? []).map((u) => (u.id === upd.id ? { ...u, ...upd } : u)) }));
+      show("Colaborador atualizado.", "success");
+    } catch {
+      show("Falha ao atualizar colaborador.", "error");
     }
-    setData((d) => ({ ...d, collaborators: (d.collaborators ?? []).map((u) => (u.id === upd.id ? { ...u, ...upd } : u)) }));
   }
 
   async function deleteCollaborator(id: string) {
     if (!confirm("Excluir colaborador? Tarefas que apontarem para ele continuarão com o vínculo (pode ficar vazio).")) return;
-    if (remoteReady) await apiDelete("collaborators", id);
-    setData((d) => ({ ...d, collaborators: (d.collaborators ?? []).filter((u) => u.id !== id) }));
+    try {
+      if (remoteReady) await apiDelete("collaborators", id);
+      setData((d) => ({ ...d, collaborators: (d.collaborators ?? []).filter((u) => u.id !== id) }));
+      show("Colaborador excluído.", "success");
+    } catch {
+      show("Falha ao excluir colaborador.", "error");
+    }
   }
 
   // =================== CLIENTES (edit) ===================
@@ -801,10 +840,18 @@ export default function Page() {
   async function saveClientEdit() {
     if (!editingClientId || !clientDraft) return;
     const toSave: Client = { ...clientDraft, lastTouch: new Date().toISOString() };
-    if (remoteReady) await apiUpdate<Client>("clients", editingClientId, toSave);
-    setData((d) => ({ ...d, clients: d.clients.map((c) => (c.id === editingClientId ? toSave : c)) }));
-    setEditingClientId(null);
-    setClientDraft(null);
+    setBusyKey("clientEdit", true);
+    try {
+      if (remoteReady) await apiUpdate<Client>("clients", editingClientId, toSave);
+      setData((d) => ({ ...d, clients: d.clients.map((c) => (c.id === editingClientId ? toSave : c)) }));
+      setEditingClientId(null);
+      setClientDraft(null);
+      show("Cliente salvo.", "success");
+    } catch {
+      show("Falha ao salvar cliente.", "error");
+    } finally {
+      setBusyKey("clientEdit", false);
+    }
   }
 
   // =================== TASK EDIT (modal) ===================
@@ -823,10 +870,18 @@ export default function Page() {
   async function saveTaskEdit() {
     if (!editingTaskId || !taskDraft) return;
     const toSave: Task = { ...taskDraft };
-    if (remoteReady) await apiUpdate<Task>("tasks", toSave.id, toSave);
-    setData((d) => ({ ...d, tasks: d.tasks.map((t) => (t.id === editingTaskId ? toSave : t)) }));
-    setEditingTaskId(null);
-    setTaskDraft(null);
+    setBusyKey("taskEdit", true);
+    try {
+      if (remoteReady) await apiUpdate<Task>("tasks", toSave.id, toSave);
+      setData((d) => ({ ...d, tasks: d.tasks.map((t) => (t.id === editingTaskId ? toSave : t)) }));
+      setEditingTaskId(null);
+      setTaskDraft(null);
+      show("Tarefa salva.", "success");
+    } catch {
+      show("Falha ao salvar tarefa.", "error");
+    } finally {
+      setBusyKey("taskEdit", false);
+    }
   }
 
   // =================== EVENTO MANUAL (atalho simples) ===================
@@ -889,12 +944,30 @@ export default function Page() {
     if (!eventDraft) return;
     const { clientId, subprojectId, type, summary, when, details, nextStep, owners, links, followUpAt } = eventDraft;
     if (!summary.trim()) return alert("Informe o resumo do evento");
-    if (remoteReady) {
-      if (editingEventId) {
-        const prev = data.events.find((e) => e.id === editingEventId);
-        if (prev) {
-          const updated: EventItem = {
-            ...prev,
+    setBusyKey("eventSave", true);
+    try {
+      if (remoteReady) {
+        if (editingEventId) {
+          const prev = data.events.find((e) => e.id === editingEventId);
+          if (prev) {
+            const updated: EventItem = {
+              ...prev,
+              type,
+              summary: summary.trim(),
+              details: details || undefined,
+              clientId,
+              subprojectId,
+              when,
+              nextStep: nextStep || undefined,
+              owners: owners.length ? owners : undefined,
+              links: links || undefined,
+              followUpAt: followUpAt || undefined,
+            };
+            await apiUpdate<EventItem>("events", editingEventId, updated);
+            setData((d) => ({ ...d, events: d.events.map((ev) => (ev.id === editingEventId ? updated : ev)) }));
+          }
+        } else {
+          const ev = await createEventRemote({
             type,
             summary: summary.trim(),
             details: details || undefined,
@@ -905,66 +978,56 @@ export default function Page() {
             owners: owners.length ? owners : undefined,
             links: links || undefined,
             followUpAt: followUpAt || undefined,
-          };
-          await apiUpdate<EventItem>("events", editingEventId, updated);
-          setData((d) => ({ ...d, events: d.events.map((ev) => (ev.id === editingEventId ? updated : ev)) }));
+          });
+          setData((d) => ({ ...d, events: [ev, ...d.events] }));
         }
       } else {
-        const ev = await createEventRemote({
-          type,
-          summary: summary.trim(),
-          details: details || undefined,
-          clientId,
-          subprojectId,
-          when,
-          nextStep: nextStep || undefined,
-          owners: owners.length ? owners : undefined,
-          links: links || undefined,
-          followUpAt: followUpAt || undefined,
+        setData((d) => {
+          if (editingEventId) {
+            return {
+              ...d,
+              events: d.events.map((ev) =>
+                ev.id === editingEventId
+                  ? {
+                      ...ev,
+                      type,
+                      summary: summary.trim(),
+                      details: details || undefined,
+                      clientId,
+                      subprojectId,
+                      when,
+                      nextStep: nextStep || undefined,
+                      owners: owners.length ? owners : undefined,
+                      links: links || undefined,
+                      followUpAt: followUpAt || undefined,
+                    }
+                  : ev
+              ),
+            };
+          }
+          return addEvent(d, {
+            type,
+            summary: summary.trim(),
+            details: details || undefined,
+            clientId,
+            subprojectId,
+            when,
+            nextStep: nextStep || undefined,
+            owners: owners.length ? owners : undefined,
+            links: links || undefined,
+            followUpAt: followUpAt || undefined,
+          });
         });
-        setData((d) => ({ ...d, events: [ev, ...d.events] }));
       }
-    } else {
-      setData((d) => {
-        if (editingEventId) {
-          return {
-            ...d,
-            events: d.events.map((ev) =>
-              ev.id === editingEventId
-                ? {
-                    ...ev,
-                    type,
-                    summary: summary.trim(),
-                    details: details || undefined,
-                    clientId,
-                    subprojectId,
-                    when,
-                    nextStep: nextStep || undefined,
-                    owners: owners.length ? owners : undefined,
-                    links: links || undefined,
-                    followUpAt: followUpAt || undefined,
-                  }
-                : ev
-            ),
-          };
-        }
-        return addEvent(d, {
-          type,
-          summary: summary.trim(),
-          details: details || undefined,
-          clientId,
-          subprojectId,
-          when,
-          nextStep: nextStep || undefined,
-          owners: owners.length ? owners : undefined,
-          links: links || undefined,
-          followUpAt: followUpAt || undefined,
-        });
-      });
+      setIsEventModalOpen(false);
+      setEventDraft(null);
+      setEditingEventId(null);
+      show("Evento salvo.", "success");
+    } catch {
+      show("Falha ao salvar evento.", "error");
+    } finally {
+      setBusyKey("eventSave", false);
     }
-    setIsEventModalOpen(false);
-    setEventDraft(null);
-    setEditingEventId(null);
   }
 
   function openFollowUpModal(clientId: string, subprojectId?: string) {
@@ -987,22 +1050,10 @@ export default function Page() {
     const { clientId, subprojectId, type, followUpAt, details, pendingFrom, owners, isAlert } = followUpDraft;
     const base = (details || "").trim();
     const autoSummary = base ? (base.split(/\n|\.\s/)[0] || base).slice(0, 100) : "Follow-up registrado";
-    if (remoteReady) {
-      const ev = await createEventRemote({
-        type,
-        summary: autoSummary,
-        details: details || undefined,
-        clientId,
-        subprojectId,
-        followUpAt,
-        pendingFrom,
-        owners: owners.length ? owners : undefined,
-        isAlert,
-      });
-      setData((d) => ({ ...d, events: [ev, ...d.events] }));
-    } else {
-      setData((d) =>
-        addEvent(d, {
+    setBusyKey("followSave", true);
+    try {
+      if (remoteReady) {
+        const ev = await createEventRemote({
           type,
           summary: autoSummary,
           details: details || undefined,
@@ -1012,16 +1063,41 @@ export default function Page() {
           pendingFrom,
           owners: owners.length ? owners : undefined,
           isAlert,
-        })
-      );
+        });
+        setData((d) => ({ ...d, events: [ev, ...d.events] }));
+      } else {
+        setData((d) =>
+          addEvent(d, {
+            type,
+            summary: autoSummary,
+            details: details || undefined,
+            clientId,
+            subprojectId,
+            followUpAt,
+            pendingFrom,
+            owners: owners.length ? owners : undefined,
+            isAlert,
+          })
+        );
+      }
+      setIsFollowUpModalOpen(false);
+      setFollowUpDraft(null);
+      show("Follow-up salvo.", "success");
+    } catch {
+      show("Falha ao salvar follow-up.", "error");
+    } finally {
+      setBusyKey("followSave", false);
     }
-    setIsFollowUpModalOpen(false);
-    setFollowUpDraft(null);
   }
 
   async function deleteEvent(eventId: string) {
-    if (remoteReady) await apiDelete("events", eventId);
-    setData((d) => ({ ...d, events: d.events.filter((e) => e.id !== eventId) }));
+    try {
+      if (remoteReady) await apiDelete("events", eventId);
+      setData((d) => ({ ...d, events: d.events.filter((e) => e.id !== eventId) }));
+      show("Evento excluído.", "success");
+    } catch {
+      show("Falha ao excluir evento.", "error");
+    }
   }
 
   // =================== UI ===================
@@ -2062,8 +2138,12 @@ export default function Page() {
               >
                 Cancelar
               </button>
-              <button onClick={saveFollowUp} className="rounded-lg bg-zinc-100 px-3 py-1.5 text-sm font-medium text-zinc-900 hover:bg-white">
-                Salvar
+              <button
+                onClick={saveFollowUp}
+                disabled={!!busy["followSave"]}
+                className="rounded-lg bg-zinc-100 px-3 py-1.5 text-sm font-medium text-zinc-900 hover:bg-white disabled:opacity-60 disabled:pointer-events-none"
+              >
+                {busy["followSave"] ? <span className="inline-flex items-center gap-2"><Loader2 className="h-4 w-4 animate-spin" /> Salvando…</span> : "Salvar"}
               </button>
             </div>
           }
@@ -2095,15 +2175,24 @@ export default function Page() {
                 onClick={() => {
                   const d = creatingSubproject.draft!;
                   if (!d.name.trim()) return alert("Informe o nome do subprojeto");
+                  setBusyKey("subCreate", true);
                   (async () => {
-                    if (remoteReady) await apiCreate<Subproject>("subprojects", d);
-                    setData((prev) => ({ ...prev, subprojects: [...prev.subprojects, d] }));
+                    try {
+                      if (remoteReady) await apiCreate<Subproject>("subprojects", d);
+                      setData((prev) => ({ ...prev, subprojects: [...prev.subprojects, d] }));
+                      show("Subprojeto criado.", "success");
+                      setCreatingSubproject({ clientId: null, draft: null });
+                    } catch {
+                      show("Falha ao criar subprojeto.", "error");
+                    } finally {
+                      setBusyKey("subCreate", false);
+                    }
                   })();
-                  setCreatingSubproject({ clientId: null, draft: null });
                 }}
-                className="rounded-lg bg-zinc-100 px-3 py-1.5 text-sm font-medium text-zinc-900 hover:bg-white"
+                disabled={!!busy["subCreate"]}
+                className="rounded-lg bg-zinc-100 px-3 py-1.5 text-sm font-medium text-zinc-900 hover:bg-white disabled:opacity-60 disabled:pointer-events-none"
               >
-                Salvar
+                {busy["subCreate"] ? <span className="inline-flex items-center gap-2"><Loader2 className="h-4 w-4 animate-spin" /> Salvando…</span> : "Salvar"}
               </button>
             </div>
           }
@@ -2198,8 +2287,12 @@ export default function Page() {
               >
                 Cancelar
               </button>
-              <button onClick={saveEvent} className="rounded-lg bg-zinc-100 px-3 py-1.5 text-sm font-medium text-zinc-900 hover:bg-white">
-                Salvar
+              <button
+                onClick={saveEvent}
+                disabled={!!busy["eventSave"]}
+                className="rounded-lg bg-zinc-100 px-3 py-1.5 text-sm font-medium text-zinc-900 hover:bg-white disabled:opacity-60 disabled:pointer-events-none"
+              >
+                {busy["eventSave"] ? <span className="inline-flex items-center gap-2"><Loader2 className="h-4 w-4 animate-spin" /> Salvando…</span> : "Salvar"}
               </button>
             </div>
           }
@@ -2233,8 +2326,12 @@ export default function Page() {
               >
                 Cancelar
               </button>
-              <button onClick={saveCreateTask} className="rounded-lg bg-zinc-100 px-3 py-1.5 text-sm font-medium text-zinc-900 hover:bg-white">
-                Salvar
+              <button
+                onClick={saveCreateTask}
+                disabled={!!busy["createTask"]}
+                className="rounded-lg bg-zinc-100 px-3 py-1.5 text-sm font-medium text-zinc-900 hover:bg-white disabled:opacity-60 disabled:pointer-events-none"
+              >
+                {busy["createTask"] ? <span className="inline-flex items-center gap-2"><Loader2 className="h-4 w-4 animate-spin" /> Salvando…</span> : "Salvar"}
               </button>
             </div>
           }
@@ -2264,16 +2361,25 @@ export default function Page() {
                 onClick={() => {
                   if (!newClientDraft?.name?.trim()) return alert("Informe o nome do cliente");
                   const toSave: Client = { ...newClientDraft, lastTouch: new Date().toISOString() };
+                  setBusyKey("clientCreate", true);
                   (async () => {
-                    if (remoteReady) await apiCreate<Client>("clients", toSave);
-                    setData((d) => ({ ...d, clients: [...d.clients, toSave] }));
+                    try {
+                      if (remoteReady) await apiCreate<Client>("clients", toSave);
+                      setData((d) => ({ ...d, clients: [...d.clients, toSave] }));
+                      show("Cliente criado.", "success");
+                      setCreatingClient(false);
+                      setNewClientDraft(null);
+                    } catch {
+                      show("Falha ao criar cliente.", "error");
+                    } finally {
+                      setBusyKey("clientCreate", false);
+                    }
                   })();
-                  setCreatingClient(false);
-                  setNewClientDraft(null);
                 }}
-                className="rounded-lg bg-zinc-100 px-3 py-1.5 text-sm font-medium text-zinc-900 hover:bg-white"
+                disabled={!!busy["clientCreate"]}
+                className="rounded-lg bg-zinc-100 px-3 py-1.5 text-sm font-medium text-zinc-900 hover:bg-white disabled:opacity-60 disabled:pointer-events-none"
               >
-                Salvar
+                {busy["clientCreate"] ? <span className="inline-flex items-center gap-2"><Loader2 className="h-4 w-4 animate-spin" /> Salvando…</span> : "Salvar"}
               </button>
             </div>
           }
@@ -2299,8 +2405,12 @@ export default function Page() {
               >
                 Cancelar
               </button>
-              <button onClick={saveTaskEdit} className="rounded-lg bg-zinc-100 px-3 py-1.5 text-sm font-medium text-zinc-900 hover:bg-white">
-                Salvar
+              <button
+                onClick={saveTaskEdit}
+                disabled={!!busy["taskEdit"]}
+                className="rounded-lg bg-zinc-100 px-3 py-1.5 text-sm font-medium text-zinc-900 hover:bg-white disabled:opacity-60 disabled:pointer-events-none"
+              >
+                {busy["taskEdit"] ? <span className="inline-flex items-center gap-2"><Loader2 className="h-4 w-4 animate-spin" /> Salvando…</span> : "Salvar"}
               </button>
             </div>
           }
@@ -2327,8 +2437,12 @@ export default function Page() {
               >
                 Cancelar
               </button>
-              <button onClick={saveClientEdit} className="rounded-lg bg-zinc-100 px-3 py-1.5 text-sm font-medium text-zinc-900 hover:bg-white">
-                Salvar
+              <button
+                onClick={saveClientEdit}
+                disabled={!!busy["clientEdit"]}
+                className="rounded-lg bg-zinc-100 px-3 py-1.5 text-sm font-medium text-zinc-900 hover:bg-white disabled:opacity-60 disabled:pointer-events-none"
+              >
+                {busy["clientEdit"] ? <span className="inline-flex items-center gap-2"><Loader2 className="h-4 w-4 animate-spin" /> Salvando…</span> : "Salvar"}
               </button>
             </div>
           }

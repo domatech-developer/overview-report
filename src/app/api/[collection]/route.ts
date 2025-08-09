@@ -8,7 +8,13 @@ export async function GET(_req: Request, { params }: { params: Promise<{ collect
   if (!allowed.has(collection)) return NextResponse.json({ error: "not found" }, { status: 404 });
   const db = await getDb();
   const items = await db.collection(collection).find({}).toArray();
-  return NextResponse.json(items);
+  // Map _id to id for client compatibility, without mutating DB
+  const normalized = items.map((doc: any) => {
+    const { _id, ...rest } = doc || {};
+    const id = doc?.id || (typeof _id !== "undefined" ? String(_id) : undefined);
+    return { id, ...rest };
+  });
+  return NextResponse.json(normalized);
 }
 
 function uid(prefix: string) {
