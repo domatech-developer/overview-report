@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useEffect, useMemo, useRef, useState } from "react";
+import { useRouter } from "next/navigation";
 import { motion } from "framer-motion";
 import {
   Plus,
@@ -1024,6 +1025,8 @@ export default function Page() {
 
   // =================== UI ===================
 
+  const router = useRouter();
+
   if (loading)
     return (
       <div className="flex h-96 items-center justify-center text-zinc-300">
@@ -1039,6 +1042,17 @@ export default function Page() {
           <h1 className="text-2xl font-semibold">Overview Report - Domatech</h1>
         </div>
         <div className="flex items-center gap-2">
+          <button
+            onClick={async () => {
+              try {
+                await fetch("/api/auth/logout", { method: "POST" });
+                router.replace("/login");
+              } catch {}
+            }}
+            className="inline-flex items-center gap-2 rounded-xl border border-zinc-800/60 px-3 py-2 text-sm hover:bg-zinc-900"
+          >
+            Sair
+          </button>
           <label className="inline-flex cursor-pointer items-center gap-2 rounded-xl border border-zinc-800/60 px-3 py-2 text-sm hover:bg-zinc-900">
             <Upload className="h-4 w-4" />
             Importar JSON
