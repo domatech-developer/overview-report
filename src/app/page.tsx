@@ -231,14 +231,22 @@ function addDays(d: number) {
   return new Date(Date.now() + d * 86400000).toISOString();
 }
 
-// Helper function to get current date/time in São Paulo timezone
+// Current timestamp in ISO (UTC). Use toLocaleString for display/timezone.
 function getCurrentDateTimeSP(): string {
-  const now = new Date();
-  // Create a date object representing the current time in São Paulo
-  // by using the timezone offset approach
-  const utc = now.getTime() + now.getTimezoneOffset() * 60000;
-  const spTime = new Date(utc + 3 * 60 * 60 * 1000); // UTC-3 for São Paulo
-  return spTime.toISOString();
+  return new Date().toISOString();
+}
+
+// Convert ISO to input[type="datetime-local"] value (local time, no TZ)
+function toLocalDateTimeInputValue(iso?: string): string {
+  if (!iso) return "";
+  const d = new Date(iso);
+  const pad = (n: number) => String(n).padStart(2, "0");
+  const yyyy = d.getFullYear();
+  const MM = pad(d.getMonth() + 1);
+  const dd = pad(d.getDate());
+  const hh = pad(d.getHours());
+  const mm = pad(d.getMinutes());
+  return `${yyyy}-${MM}-${dd}T${hh}:${mm}`;
 }
 
 function migrateData(input: Partial<StoreShape>): StoreShape {
@@ -896,7 +904,7 @@ export default function Page() {
     if (!summary) return;
     const follow = prompt("Próximo passo (opcional)");
     const owner = prompt("Responsável (opcional)");
-    const at = prompt("Data do follow-up (AAAA-MM-DD) (opcional)");
+  const at = prompt("Data do follow-up (AAAA-MM-DD) (opcional)");
     if (remoteReady) {
       const ev = await createEventRemote({
         type,
@@ -905,11 +913,11 @@ export default function Page() {
         subprojectId,
         nextStep: follow || undefined,
         owner: owner || undefined,
-        followUpAt: at ? new Date(at).toISOString() : undefined,
+  followUpAt: at ? `${at}T00:00:00.000` : undefined,
       });
       setData((d) => ({ ...d, events: [ev, ...d.events] }));
     } else {
-      setData((d) =>
+  setData((d) =>
         addEvent(d, {
           type,
           summary,
@@ -917,7 +925,7 @@ export default function Page() {
           subprojectId,
           nextStep: follow || undefined,
           owner: owner || undefined,
-          followUpAt: at ? new Date(at).toISOString() : undefined,
+          followUpAt: at ? `${at}T00:00:00.000` : undefined,
         })
       );
     }
@@ -2632,7 +2640,7 @@ function ClientEditForm({ draft, onChange }: { draft: Client; onChange: <K exten
           <input
             type="date"
             value={draft.nextFollowUp ? draft.nextFollowUp.slice(0, 10) : ""}
-            onChange={(e) => onChange("nextFollowUp", e.target.value ? new Date(e.target.value).toISOString() : undefined)}
+            onChange={(e) => onChange("nextFollowUp", e.target.value ? `${e.target.value}T00:00:00.000` : undefined)}
             className="w-full rounded-md border border-zinc-800 bg-zinc-950 px-3 py-2 text-sm [color-scheme:dark]"
           />
         </div>
@@ -2752,7 +2760,7 @@ function ClientCreateForm({ draft, onChange }: { draft: Client; onChange: <K ext
           <input
             type="date"
             value={draft.nextFollowUp ? draft.nextFollowUp.slice(0, 10) : ""}
-            onChange={(e) => onChange("nextFollowUp", e.target.value ? new Date(e.target.value).toISOString() : undefined)}
+            onChange={(e) => onChange("nextFollowUp", e.target.value ? `${e.target.value}T00:00:00.000` : undefined)}
             className="w-full rounded-md border border-zinc-800 bg-zinc-950 px-3 py-2 text-sm"
           />
         </div>
@@ -2857,7 +2865,7 @@ function TaskEditForm({
           <input
             type="date"
             value={draft.dueDate ? draft.dueDate.slice(0, 10) : ""}
-            onChange={(e) => onChange("dueDate", e.target.value ? new Date(e.target.value).toISOString() : undefined)}
+            onChange={(e) => onChange("dueDate", e.target.value ? `${e.target.value}T00:00:00.000` : undefined)}
             className="w-full rounded-md border border-zinc-800 bg-zinc-950 px-3 py-2 text-sm [color-scheme:dark]"
           />
         </div>
@@ -2866,7 +2874,7 @@ function TaskEditForm({
           <input
             type="date"
             value={draft.startDate ? draft.startDate.slice(0, 10) : ""}
-            onChange={(e) => onChange("startDate", e.target.value ? new Date(e.target.value).toISOString() : undefined)}
+            onChange={(e) => onChange("startDate", e.target.value ? `${e.target.value}T00:00:00.000` : undefined)}
             className="w-full rounded-md border border-zinc-800 bg-zinc-950 px-3 py-2 text-sm [color-scheme:dark]"
           />
         </div>
@@ -2986,7 +2994,10 @@ function FollowUpForm({
           <input
             type="date"
             value={draft.followUpAt.slice(0, 10)}
-            onChange={(e) => onChange("followUpAt", new Date(e.target.value).toISOString())}
+            onChange={(e) => {
+              const v = e.target.value; // yyyy-MM-dd in local time
+              onChange("followUpAt", v ? `${v}T00:00:00.000` : draft.followUpAt);
+            }}
             className="w-full rounded-md border border-zinc-800 bg-zinc-950 px-3 py-2 text-sm [color-scheme:dark]"
           />
         </div>
@@ -3147,7 +3158,7 @@ function EventCreateForm({
           <label className="mb-1 block text-xs text-zinc-400">Quando</label>
           <input
             type="datetime-local"
-            value={draft.when.slice(0, 16)}
+            value={toLocalDateTimeInputValue(draft.when)}
             onChange={(e) => onChange("when", new Date(e.target.value).toISOString())}
             className="w-full rounded-md border border-zinc-800 bg-zinc-950 px-3 py-2 text-sm"
           />
@@ -3180,7 +3191,7 @@ function EventCreateForm({
           <label className="mb-1 block text-xs text-zinc-400">Follow-up (opcional)</label>
           <input
             type="datetime-local"
-            value={draft.followUpAt ? draft.followUpAt.slice(0, 16) : ""}
+            value={toLocalDateTimeInputValue(draft.followUpAt)}
             onChange={(e) => onChange("followUpAt", e.target.value ? new Date(e.target.value).toISOString() : undefined)}
             className="w-full rounded-md border border-zinc-800 bg-zinc-950 px-3 py-2 text-sm"
           />
