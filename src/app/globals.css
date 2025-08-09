@@ -2,7 +2,36 @@
 
 :root {
   --background: #ffffff;
-  --foreground: #171717;
+  --foreground: #0a0a0a;
+  --card: #ffffff;
+  --card-border: #e5e7eb;
+  --muted: #6b7280;
+  --muted-strong: #374151;
+  --surface: #f9fafb;
+  --accent: #111827;
+  --accent-contrast: #f9fafb;
+  --danger-bg: #fef2f2;
+  --danger-border: #fecaca;
+  --danger-fg: #991b1b;
+  --scroll-track: #f3f4f6;
+  --scroll-thumb: #d1d5db;
+}
+
+[data-theme="dark"] {
+  --background: #0a0a0a;
+  --foreground: #ededed;
+  --card: #0b0b0b;
+  --card-border: #27272a;
+  --muted: #a1a1aa;
+  --muted-strong: #d4d4d8;
+  --surface: #0a0a0a;
+  --accent: #e5e7eb;
+  --accent-contrast: #0a0a0a;
+  --danger-bg: #43121a;
+  --danger-border: #7f1d1d;
+  --danger-fg: #fecaca;
+  --scroll-track: #0a0a0a;
+  --scroll-thumb: #27272a;
 }
 
 @theme inline {
@@ -12,12 +41,7 @@
   --font-mono: var(--font-geist-mono);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
-}
+/* prefers-color-scheme is used only as initial default; ThemeProvider sets data-theme later */
 
 body {
   background: var(--background);
@@ -37,24 +61,77 @@ summary,
 /* Thin, dark scrollbars (global) */
 * {
   scrollbar-width: thin; /* Firefox */
-  scrollbar-color: #27272a #0a0a0a; /* thumb, track */
+  scrollbar-color: var(--scroll-thumb) var(--scroll-track); /* thumb, track */
 }
 *::-webkit-scrollbar {
   height: 8px;
   width: 8px;
 }
 *::-webkit-scrollbar-track {
-  background: #0a0a0a;
+  background: var(--scroll-track);
 }
 *::-webkit-scrollbar-thumb {
-  background: #27272a;
+  background: var(--scroll-thumb);
   border-radius: 8px;
 }
 *::-webkit-scrollbar-thumb:hover {
-  background: #3f3f46;
+  background: color-mix(in oklab, var(--scroll-thumb), black 15%);
 }
 
 /* Flow lanes can reuse global, but keep class for future tweaks */
 .flow-scroll {
   scrollbar-width: thin;
+}
+
+/* Light theme safeguards for hardcoded zinc classes (to avoid invisible text on white) */
+[data-theme="light"] .text-zinc-100 {
+  color: #111827 !important;
+}
+[data-theme="light"] .text-zinc-200 {
+  color: #1f2937 !important;
+}
+[data-theme="light"] .text-zinc-300 {
+  color: #374151 !important;
+}
+[data-theme="light"] .text-zinc-400 {
+  color: #4b5563 !important;
+}
+[data-theme="light"] .text-zinc-500 {
+  color: #6b7280 !important;
+}
+
+[data-theme="light"] .border-zinc-800,
+[data-theme="light"] .border-zinc-800\/60,
+[data-theme="light"] .border-rose-900\/60 {
+  border-color: var(--card-border) !important;
+}
+
+[data-theme="light"] .bg-zinc-950,
+[data-theme="light"] .bg-zinc-950\/40,
+[data-theme="light"] .bg-zinc-950\/50,
+[data-theme="light"] .bg-zinc-950\/60,
+[data-theme="light"] .bg-zinc-900,
+[data-theme="light"] .bg-zinc-900\/60 {
+  background-color: var(--card) !important;
+}
+
+/* Chips/Tags used in Agenda: make dark badges readable in light theme */
+[data-theme="light"] .bg-zinc-800,
+[data-theme="light"] .bg-zinc-700 {
+  background-color: #e5e7eb !important; /* zinc-200 */
+  color: #111827 !important; /* slate-900 for text */
+}
+
+[data-theme="light"] .hover\:bg-zinc-900:hover {
+  background-color: #f3f4f6 !important;
+}
+
+[data-theme="light"] .text-rose-200 {
+  color: #7f1d1d !important;
+}
+[data-theme="light"] .bg-rose-950\/40 {
+  background-color: var(--danger-bg) !important;
+}
+[data-theme="light"] .border-rose-900\/60 {
+  border-color: var(--danger-border) !important;
 }

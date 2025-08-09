@@ -22,6 +22,7 @@ import {
   Share2,
   ArrowRight,
 } from "lucide-react";
+import { ThemeToggle } from "@/components/theme/ThemeToggle";
 
 /**
  * Client Projects Dashboard — JSON-first, Mongo-ready
@@ -1042,17 +1043,6 @@ export default function Page() {
           <h1 className="text-2xl font-semibold">Overview Report - Domatech</h1>
         </div>
         <div className="flex items-center gap-2">
-          <button
-            onClick={async () => {
-              try {
-                await fetch("/api/auth/logout", { method: "POST" });
-                router.replace("/login");
-              } catch {}
-            }}
-            className="inline-flex items-center gap-2 rounded-xl border border-zinc-800/60 px-3 py-2 text-sm hover:bg-zinc-900"
-          >
-            Sair
-          </button>
           <label className="inline-flex cursor-pointer items-center gap-2 rounded-xl border border-zinc-800/60 px-3 py-2 text-sm hover:bg-zinc-900">
             <Upload className="h-4 w-4" />
             Importar JSON
@@ -1072,6 +1062,18 @@ export default function Page() {
             className="inline-flex items-center gap-2 rounded-xl bg-zinc-100 px-3 py-2 text-sm font-medium text-zinc-900 hover:bg-white"
           >
             <Plus className="h-4 w-4" /> Novo cliente
+          </button>
+          <ThemeToggle />
+          <button
+            onClick={async () => {
+              try {
+                await fetch("/api/auth/logout", { method: "POST" });
+                router.replace("/login");
+              } catch {}
+            }}
+            className="inline-flex items-center gap-2 rounded-xl border border-zinc-800/60 px-3 py-2 text-sm hover:bg-zinc-900"
+          >
+            Sair
           </button>
         </div>
       </header>
